@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-//import 'package:permission_handler/permission_handler.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 //import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -62,6 +61,7 @@ class MyHomePageState extends State<MyHomePage> {
 
   void _locationPermission() async {
     var status = await Permission.locationWhenInUse.status;
+    print(status);
     if (status.isUndetermined || status.isDenied) {
       Permission.locationWhenInUse.request();
     }
@@ -250,7 +250,7 @@ class MainPageState extends State<MainPage> {
         title: Text('@location'),
       ),
       body: GoogleMap(
-        mapType: MapType.terrain,
+        mapType: MapType.normal,
         compassEnabled: true,
         myLocationButtonEnabled: true,
         myLocationEnabled: true,
@@ -271,10 +271,10 @@ class MainPageState extends State<MainPage> {
           SizedBox(
             height: 10,
           ),
-          FloatingActionButton.extended(
-            onPressed: _getLocation,
-            label: Text('testing'),
-          ),
+//          FloatingActionButton.extended(
+//            onPressed: _getLocation,
+//            label: Text('testing'),
+//          ),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
