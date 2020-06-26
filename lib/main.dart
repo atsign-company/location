@@ -5,6 +5,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -15,6 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Location Login UI',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -245,32 +248,32 @@ class MainPageState extends State<MainPage> {
           _controller.complete(controller);
         },
       ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          FloatingActionButton.extended(
-            heroTag: 'a',
-            onPressed: _goToTheLake,
-            label: Text('Center'),
-            //icon: Icon(Icons.directions_boat),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          FloatingActionButton.extended(
-            heroTag: 'b',
-            onPressed: _getLocation,
-            label: Text('testing'),
-          ),
-        ],
-      ),
+//      floatingActionButton: Column(
+//        mainAxisAlignment: MainAxisAlignment.end,
+//        children: <Widget>[
+//          FloatingActionButton.extended(
+//            heroTag: 'a',
+//            onPressed: _goToTheLake,
+//            label: Text('Center'),
+//            //icon: Icon(Icons.directions_boat),
+//          ),
+//          SizedBox(
+//            height: 10,
+//          ),
+//          FloatingActionButton.extended(
+//            heroTag: 'b',
+//            onPressed: _getLocation,
+//            label: Text('testing'),
+//          ),
+//        ],
+//      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              child: Text('Sean Kim'),
+              child: Text('Profile'),
               decoration: BoxDecoration(
                 color: Colors.blueAccent,
               ),
