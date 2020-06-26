@@ -136,23 +136,6 @@ class MyHomePageState extends State<MyHomePage> {
       ),
     );
 
-    final tempL = Material(
-      elevation: 5,
-      borderRadius: BorderRadius.circular(30),
-      color: Colors.blueAccent,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        onPressed: _locationPermission,
-        child: Text(
-          "Permission",
-          textAlign: TextAlign.center,
-          style:
-              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
-
     return Scaffold(
       body: Center(
         child: Container(
@@ -170,7 +153,6 @@ class MyHomePageState extends State<MyHomePage> {
                     style: TextStyle(fontSize: 30),
                   ),
                 ),
-                tempL,
                 SizedBox(height: 45),
                 emailField,
                 SizedBox(height: 25),
@@ -244,20 +226,6 @@ class MainPageState extends State<MainPage> {
       );
       _markers["Current Location"] = marker;
     });
-  }
-
-  void _locationPermission() async {
-    var status = await Permission.locationWhenInUse.status;
-    print(status);
-    if (status.isUndetermined || status.isDenied) {
-      Permission.locationWhenInUse.request();
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _locationPermission();
   }
 
   @override
