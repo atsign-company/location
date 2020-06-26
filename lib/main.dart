@@ -1,11 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
-//import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 void main() {
   runApp(MyApp());
@@ -92,7 +90,12 @@ class MyHomePageState extends State<MyHomePage> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        onPressed: () {
+        onPressed: () async {
+          var status = await Permission.locationWhenInUse.status;
+          print(status);
+          if (status.isUndetermined || status.isDenied) {
+            await Permission.locationWhenInUse.request();
+          }
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -230,7 +233,7 @@ class MainPageState extends State<MainPage> {
 
   void _getLocation() async {
     var currentLocation = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
     setState(() {
       _markers.clear();
@@ -241,6 +244,20 @@ class MainPageState extends State<MainPage> {
       );
       _markers["Current Location"] = marker;
     });
+  }
+
+  void _locationPermission() async {
+    var status = await Permission.locationWhenInUse.status;
+    print(status);
+    if (status.isUndetermined || status.isDenied) {
+      Permission.locationWhenInUse.request();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _locationPermission();
   }
 
   @override
@@ -264,6 +281,7 @@ class MainPageState extends State<MainPage> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           FloatingActionButton.extended(
+            heroTag: 'a',
             onPressed: _goToTheLake,
             label: Text('Center'),
             //icon: Icon(Icons.directions_boat),
@@ -271,10 +289,11 @@ class MainPageState extends State<MainPage> {
           SizedBox(
             height: 10,
           ),
-//          FloatingActionButton.extended(
-//            onPressed: _getLocation,
-//            label: Text('testing'),
-//          ),
+          FloatingActionButton.extended(
+            heroTag: 'b',
+            onPressed: _getLocation,
+            label: Text('testing'),
+          ),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
