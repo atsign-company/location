@@ -7,6 +7,8 @@ import 'package:permission_handler/permission_handler.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
+final FirebaseAuth _auth = FirebaseAuth.instance;
+
 void main() {
   runApp(MyApp());
 }
@@ -60,6 +62,13 @@ class MyHomePage extends StatefulWidget {
 class MyHomePageState extends State<MyHomePage> {
   TextStyle style = TextStyle(fontSize: 20);
 
+  //Firebase auth
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool _success;
+  String _userEmail;
+
   void _locationPermission() async {
     var status = await Permission.locationWhenInUse.status;
     print(status);
@@ -68,17 +77,57 @@ class MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  void _signInWithEmailAndPassword() async {
+    final FirebaseUser user = (await _auth.signInWithEmailAndPassword(
+      email: _emailController.text,
+      password: _passwordController.text,
+    ))
+        .user;
+    if (user != null) {
+      setState(() {
+        _success = true;
+        _userEmail = user.email;
+      });
+    } else {
+      _success = false;
+    }
+
+    if (_success == null || !_success) {
+      print('FAILED');
+    } else {
+      var status = await Permission.locationWhenInUse.status;
+      print(status);
+      if (status.isUndetermined || status.isDenied) {
+        await Permission.locationWhenInUse.request();
+      }
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MainPage(),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final emailField = TextField(
+    final emailField = TextFormField(
+      controller: _emailController,
       obscureText: false,
       style: style,
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Please enter some text';
+        }
+        return null;
+      },
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Email",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(32))),
     );
-    final passwordField = TextField(
+    final passwordField = TextFormField(
+      controller: _passwordController,
       obscureText: true,
       style: style,
       decoration: InputDecoration(
@@ -94,17 +143,9 @@ class MyHomePageState extends State<MyHomePage> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         onPressed: () async {
-          var status = await Permission.locationWhenInUse.status;
-          print(status);
-          if (status.isUndetermined || status.isDenied) {
-            await Permission.locationWhenInUse.request();
+          if (_formKey.currentState.validate()) {
+            _signInWithEmailAndPassword();
           }
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => MainPage(),
-            ),
-          );
         },
         child: Text(
           "Login",
@@ -140,35 +181,38 @@ class MyHomePageState extends State<MyHomePage> {
     );
 
     return Scaffold(
-      body: Center(
-        child: Container(
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(36),
-            child: ListView(
-              padding: EdgeInsets.fromLTRB(0, 90, 0, 0),
-              children: <Widget>[
-                SizedBox(
-                  height: 155,
-                  child: Text(
-                    '@location',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 30),
+      body: Form(
+        key: _formKey,
+        child: Center(
+          child: Container(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(36),
+              child: ListView(
+                padding: EdgeInsets.fromLTRB(0, 90, 0, 0),
+                children: <Widget>[
+                  SizedBox(
+                    height: 155,
+                    child: Text(
+                      '@location',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 30),
+                    ),
                   ),
-                ),
-                SizedBox(height: 45),
-                emailField,
-                SizedBox(height: 25),
-                passwordField,
-                SizedBox(
-                  height: 35,
-                ),
-                loginButton,
-                SizedBox(
-                  height: 15,
-                ),
-                registerButton,
-              ],
+                  SizedBox(height: 45),
+                  emailField,
+                  SizedBox(height: 25),
+                  passwordField,
+                  SizedBox(
+                    height: 35,
+                  ),
+                  loginButton,
+                  SizedBox(
+                    height: 15,
+                  ),
+                  registerButton,
+                ],
+              ),
             ),
           ),
         ),
