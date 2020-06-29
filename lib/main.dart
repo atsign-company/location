@@ -78,11 +78,30 @@ class MyHomePageState extends State<MyHomePage> {
   }
 
   void _signInWithEmailAndPassword() async {
-    final FirebaseUser user = (await _auth.signInWithEmailAndPassword(
-      email: _emailController.text,
-      password: _passwordController.text,
-    ))
-        .user;
+    FirebaseUser user;
+    try {
+      user = (await _auth.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+      ))
+          .user;
+    } catch (e) {
+      print(e.code);
+      switch (e.code) {
+        case 'ERROR_USER_NOT_FOUND':
+          print('user not found');
+          break;
+        case 'ERROR_INVALID_EMAIL':
+          print('invalid email');
+          break;
+        case 'ERROR_WRONG_PASSWORD':
+          print('invalid password');
+          break;
+        default:
+          print('Invalid credentials');
+          break;
+      }
+    }
     if (user != null) {
       setState(() {
         _success = true;
@@ -117,7 +136,7 @@ class MyHomePageState extends State<MyHomePage> {
       style: style,
       validator: (String value) {
         if (value.isEmpty) {
-          return 'Please enter some text';
+          return 'Please enter your email';
         }
         return null;
       },
