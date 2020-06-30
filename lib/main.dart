@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
+import './register.dart';
+
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -66,18 +68,9 @@ class MyHomePageState extends State<MyHomePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _failLoginController = TextEditingController();
   bool _success;
   bool _login;
   String _userEmail;
-
-  void _locationPermission() async {
-    var status = await Permission.locationWhenInUse.status;
-    print(status);
-    if (status.isUndetermined || status.isDenied) {
-      Permission.locationWhenInUse.request();
-    }
-  }
 
   void _signInWithEmailAndPassword() async {
     FirebaseUser user;
@@ -188,14 +181,14 @@ class MyHomePageState extends State<MyHomePage> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-//        onPressed: () {
-//          Navigator.push(
-//            context,
-//            MaterialPageRoute(
-//              builder: (context) => MainPage(),
-//            ),
-//          );
-//        },
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Register(),
+            ),
+          );
+        },
         child: Text(
           "Register",
           textAlign: TextAlign.center,

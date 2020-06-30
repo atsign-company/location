@@ -1,6 +1,6 @@
 # location
 
-A simple, location sharing app. In construction.
+A simple location sharing app. In construction.
 
 ## Features
 
