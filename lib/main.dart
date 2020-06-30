@@ -66,7 +66,9 @@ class MyHomePageState extends State<MyHomePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _failLoginController = TextEditingController();
   bool _success;
+  bool _login;
   String _userEmail;
 
   void _locationPermission() async {
@@ -86,21 +88,7 @@ class MyHomePageState extends State<MyHomePage> {
       ))
           .user;
     } catch (e) {
-      print(e.code);
-      switch (e.code) {
-        case 'ERROR_USER_NOT_FOUND':
-          print('user not found');
-          break;
-        case 'ERROR_INVALID_EMAIL':
-          print('invalid email');
-          break;
-        case 'ERROR_WRONG_PASSWORD':
-          print('invalid password');
-          break;
-        default:
-          print('Invalid credentials');
-          break;
-      }
+      print('Invalid email/password combination');
     }
     if (user != null) {
       setState(() {
@@ -108,12 +96,13 @@ class MyHomePageState extends State<MyHomePage> {
         _userEmail = user.email;
       });
     } else {
-      _success = false;
+      setState(() {
+        _success = false;
+      });
     }
+    print(_success);
 
-    if (_success == null || !_success) {
-      print('FAILED');
-    } else {
+    if (_success) {
       var status = await Permission.locationWhenInUse.status;
       print(status);
       if (status.isUndetermined || status.isDenied) {
@@ -130,6 +119,15 @@ class MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var _failLogin = Text(
+      _success == null ? '' : (!_success ? 'Sign in failed!' : ''),
+      style: TextStyle(
+        color: Colors.red,
+        fontSize: 15,
+      ),
+      textAlign: TextAlign.center,
+    );
+
     final emailField = TextFormField(
       controller: _emailController,
       obscureText: false,
@@ -145,15 +143,23 @@ class MyHomePageState extends State<MyHomePage> {
           hintText: "Email",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(32))),
     );
+
     final passwordField = TextFormField(
       controller: _passwordController,
       obscureText: true,
       style: style,
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Please enter your password';
+        }
+        return null;
+      },
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Password",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(32))),
     );
+
     final loginButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
@@ -218,17 +224,15 @@ class MyHomePageState extends State<MyHomePage> {
                       style: TextStyle(fontSize: 30),
                     ),
                   ),
-                  SizedBox(height: 45),
+                  SizedBox(height: 35),
+                  _failLogin,
+                  SizedBox(height: 10),
                   emailField,
                   SizedBox(height: 25),
                   passwordField,
-                  SizedBox(
-                    height: 35,
-                  ),
+                  SizedBox(height: 35),
                   loginButton,
-                  SizedBox(
-                    height: 15,
-                  ),
+                  SizedBox(height: 15),
                   registerButton,
                 ],
               ),
