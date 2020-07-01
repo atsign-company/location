@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import './login.dart';
+import './friendlist.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 

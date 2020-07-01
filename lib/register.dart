@@ -5,6 +5,7 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class Register extends StatefulWidget {
   final String title = 'Registration';
+
   @override
   State<StatefulWidget> createState() => RegisterState();
 }
@@ -16,7 +17,6 @@ class RegisterState extends State<Register> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _success;
-  String _userEmail;
 
   void _register() async {
     final FirebaseUser user = (await _auth.createUserWithEmailAndPassword(
@@ -25,14 +25,14 @@ class RegisterState extends State<Register> {
     ))
         .user;
     if (user != null) {
-      setState(() {
         _success = true;
-        _userEmail = user.email;
-      });
     } else {
-      _success = false;
+      setState(() {
+        _success = false;
+      });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final emailField = TextFormField(
@@ -84,7 +84,7 @@ class RegisterState extends State<Register> {
           "Register",
           textAlign: TextAlign.center,
           style:
-          style.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -121,5 +121,13 @@ class RegisterState extends State<Register> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the Widget is disposed
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }

@@ -64,8 +64,6 @@ class LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _success;
-  //bool _login;
-  //String _userEmail;
 
   void _signInWithEmailAndPassword() async {
     FirebaseUser user;
@@ -81,7 +79,6 @@ class LoginState extends State<Login> {
     if (user != null) {
       setState(() {
         _success = true;
-    //    _userEmail = user.email;
       });
     } else {
       setState(() {
@@ -230,56 +227,11 @@ class LoginState extends State<Login> {
       ),
     );
   }
-}
 
-class FriendList extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Friends List'),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              child: Text('Sean Kim'),
-              decoration: BoxDecoration(
-                color: Colors.blueAccent,
-              ),
-            ),
-            ListTile(
-              title: Text('Home'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Home(),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              title: Text('Friends'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Logout'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Login(),
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }
