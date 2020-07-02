@@ -78,7 +78,10 @@ class FriendListState extends State<FriendList> {
       body: StreamBuilder<QuerySnapshot>(
           stream: repository.getStream(),
           builder: (context, snapshot) {
-            if (!snapshot.hasData) return LinearProgressIndicator();
+            if (!snapshot.hasData) {
+              print ('idk');
+              return LinearProgressIndicator();
+            }
             //return _buildList(context, snapshot.data.documents);
             return ListView.builder(padding: EdgeInsets.all(10.0),
               itemBuilder: (context, index) =>
@@ -137,6 +140,9 @@ class FriendListState extends State<FriendList> {
 //    } else {
       return Container(
         child: FlatButton(
+          onPressed: () {
+            Navigator.pop(context, false);
+          },
           child: Row(
             children: <Widget>[
               Material(
@@ -149,7 +155,7 @@ class FriendListState extends State<FriendList> {
                     children: <Widget>[
                       Container(
                         child: Text(
-                          'Email: ${document['userEmail']}',
+                          'Email: ${document['email']}',
                           style: TextStyle(color: Colors.black),
                         ),
                         alignment: Alignment.centerLeft,
@@ -169,5 +175,5 @@ class FriendListState extends State<FriendList> {
         margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
       );
     }
-  }
-//}
+//  }
+}

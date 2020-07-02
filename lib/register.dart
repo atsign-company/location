@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -28,7 +29,7 @@ class RegisterState extends State<Register> {
       ))
           .user;
     } catch (e) {
-      switch(e.code) {
+      switch (e.code) {
         case "ERROR_INVALID_EMAIL":
           errorMessage = 'Please enter a valid email.';
           break;
@@ -44,6 +45,10 @@ class RegisterState extends State<Register> {
     }
     if (user != null) {
       _success = true;
+      Firestore.instance
+          .collection('users')
+          .document()
+          .setData({'email': user.email});
     } else {
       setState(() {
         _success = false;
@@ -103,10 +108,7 @@ class RegisterState extends State<Register> {
       borderRadius: BorderRadius.circular(30),
       color: Colors.blueAccent,
       child: MaterialButton(
-        minWidth: MediaQuery
-            .of(context)
-            .size
-            .width,
+        minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         onPressed: () async {
           if (_formKey.currentState.validate()) {
@@ -117,7 +119,7 @@ class RegisterState extends State<Register> {
           "Register",
           textAlign: TextAlign.center,
           style:
-          style.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
     );

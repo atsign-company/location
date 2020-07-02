@@ -65,6 +65,7 @@ class LoginState extends State<Login> {
   final TextEditingController _passwordController = TextEditingController();
   bool _success;
   String errorMessage;
+  String userEmail;
 
   void _signInWithEmailAndPassword() async {
     FirebaseUser user;
@@ -81,6 +82,7 @@ class LoginState extends State<Login> {
     if (user != null) {
       setState(() {
         _success = true;
+        userEmail = user.email;
       });
     } else {
       setState(() {
