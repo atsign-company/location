@@ -64,6 +64,7 @@ class LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _success;
+  String errorMessage;
 
   void _signInWithEmailAndPassword() async {
     FirebaseUser user;
@@ -74,8 +75,9 @@ class LoginState extends State<Login> {
       ))
           .user;
     } catch (e) {
-      print('Invalid email/password combination');
+      errorMessage = 'Invalid email/password combination';
     }
+
     if (user != null) {
       setState(() {
         _success = true;
@@ -85,11 +87,9 @@ class LoginState extends State<Login> {
         _success = false;
       });
     }
-    print(_success);
 
     if (_success) {
       var status = await Permission.locationWhenInUse.status;
-      print(status);
       if (status.isUndetermined || status.isDenied) {
         await Permission.locationWhenInUse.request();
       }
@@ -105,7 +105,7 @@ class LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     var _failLogin = Text(
-      _success == null ? '' : (!_success ? 'Sign in failed!' : ''),
+      _success == null ? '' : (!_success ? errorMessage : ''),
       style: TextStyle(
         color: Colors.red,
         fontSize: 15,

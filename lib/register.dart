@@ -17,24 +17,55 @@ class RegisterState extends State<Register> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _success;
+  String errorMessage;
 
   void _register() async {
-    final FirebaseUser user = (await _auth.createUserWithEmailAndPassword(
-      email: _emailController.text,
-      password: _passwordController.text,
-    ))
-        .user;
+    FirebaseUser user;
+    try {
+      user = (await _auth.createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      ))
+          .user;
+    } catch (e) {
+      switch(e.code) {
+        case "ERROR_INVALID_EMAIL":
+          errorMessage = 'Please enter a valid email.';
+          break;
+        case "ERROR_EMAIL_ALREADY_IN_USE":
+          errorMessage = 'This email is already registered.';
+          break;
+        case "ERROR_WEAK_PASSWORD":
+          errorMessage = 'WEAK PASSWORD!';
+          break;
+        default:
+          errorMessage = 'Invalid email/password combination';
+      }
+    }
     if (user != null) {
-        _success = true;
+      _success = true;
     } else {
       setState(() {
         _success = false;
       });
     }
+
+    if (_success) {
+      Navigator.pop(context);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    var _failRegister = Text(
+      _success == null ? '' : (!_success ? errorMessage : ''),
+      style: TextStyle(
+        color: Colors.red,
+        fontSize: 15,
+      ),
+      textAlign: TextAlign.center,
+    );
+
     final emailField = TextFormField(
       controller: _emailController,
       obscureText: false,
@@ -72,24 +103,38 @@ class RegisterState extends State<Register> {
       borderRadius: BorderRadius.circular(30),
       color: Colors.blueAccent,
       child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
+        minWidth: MediaQuery
+            .of(context)
+            .size
+            .width,
         padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         onPressed: () async {
           if (_formKey.currentState.validate()) {
             _register();
-            Navigator.pop(context);
           }
         },
         child: Text(
           "Register",
           textAlign: TextAlign.center,
           style:
-              style.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+          style.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
     );
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Register'),
+//        actions: <Widget>[
+//          IconButton(
+//            icon: Icon(Icons.arrow_back),
+//            tooltip: 'Go back',
+//            onPressed: () {
+//              Navigator.pop(context, false);
+//            },
+//          )
+//        ],
+      ),
       body: Form(
         key: _formKey,
         child: Center(
@@ -98,7 +143,7 @@ class RegisterState extends State<Register> {
             child: Padding(
               padding: const EdgeInsets.all(36),
               child: ListView(
-                padding: EdgeInsets.fromLTRB(0, 90, 0, 0),
+                padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                 children: <Widget>[
                   SizedBox(
                     height: 155,
@@ -108,7 +153,9 @@ class RegisterState extends State<Register> {
                       style: TextStyle(fontSize: 30),
                     ),
                   ),
-                  SizedBox(height: 45),
+                  SizedBox(height: 35),
+                  _failRegister,
+                  SizedBox(height: 10),
                   emailField,
                   SizedBox(height: 25),
                   passwordField,
