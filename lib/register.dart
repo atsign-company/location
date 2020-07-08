@@ -17,8 +17,10 @@ class RegisterState extends State<Register> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   bool _success;
   String errorMessage;
+  String name;
 
   void _register() async {
     FirebaseUser user;
@@ -45,10 +47,11 @@ class RegisterState extends State<Register> {
     }
     if (user != null) {
       _success = true;
-      Firestore.instance
-          .collection('users')
-          .document()
-          .setData({'email': user.email});
+      name = _nameController.text;
+      Firestore.instance.collection('users').document(user.email).setData({
+        'email': user.email,
+        'name': name,
+      });
     } else {
       setState(() {
         _success = false;
@@ -69,6 +72,22 @@ class RegisterState extends State<Register> {
         fontSize: 15,
       ),
       textAlign: TextAlign.center,
+    );
+
+    final nameField = TextFormField(
+      controller: _nameController,
+      obscureText: false,
+      style: style,
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Please enter your name';
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintText: "Full name",
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32))),
     );
 
     final emailField = TextFormField(
@@ -127,15 +146,6 @@ class RegisterState extends State<Register> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Register'),
-//        actions: <Widget>[
-//          IconButton(
-//            icon: Icon(Icons.arrow_back),
-//            tooltip: 'Go back',
-//            onPressed: () {
-//              Navigator.pop(context, false);
-//            },
-//          )
-//        ],
       ),
       body: Form(
         key: _formKey,
@@ -158,6 +168,8 @@ class RegisterState extends State<Register> {
                   SizedBox(height: 35),
                   _failRegister,
                   SizedBox(height: 10),
+                  nameField,
+                  SizedBox(height: 25),
                   emailField,
                   SizedBox(height: 25),
                   passwordField,

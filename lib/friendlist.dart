@@ -31,8 +31,7 @@ User _userFromJson(Map<dynamic, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _userToJson(User user) =>
-    <String, dynamic>{
+Map<String, dynamic> _userToJson(User user) => <String, dynamic>{
       'userEmail': user.userEmail,
       'pid': user.pid,
     };
@@ -51,8 +50,9 @@ class DataRepository {
 
   // 4
   updateUser(User user) async {
-    await collection.document(user.reference.documentID).updateData(
-        user.toJson());
+    await collection
+        .document(user.reference.documentID)
+        .updateData(user.toJson());
   }
 }
 
@@ -67,7 +67,7 @@ class FriendList extends StatefulWidget {
 
 class FriendListState extends State<FriendList> {
   final DataRepository repository = DataRepository();
-  //final String userEmail;
+  final String userEmail = LoginState.userEmail;
 
   @override
   Widget build(BuildContext context) {
@@ -79,21 +79,27 @@ class FriendListState extends State<FriendList> {
           stream: repository.getStream(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              print ('idk');
+              print('idk');
               return LinearProgressIndicator();
             }
-            //return _buildList(context, snapshot.data.documents);
-            return ListView.builder(padding: EdgeInsets.all(10.0),
+            return ListView.builder(
+              padding: EdgeInsets.all(10.0),
               itemBuilder: (context, index) =>
                   buildItem(context, snapshot.data.documents[index]),
-              itemCount: snapshot.data.documents.length,);
+              itemCount: snapshot.data.documents.length,
+            );
           }),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              child: Text('Sean Kim'),
+              child: Text('Profile'
+                  //getUserName()
+//                  Firestore.instance.document(userEmail).get().then((value) {
+//                    print(value.data['name']);
+//                  });
+                  ),
               decoration: BoxDecoration(
                 color: Colors.blueAccent,
               ),
@@ -134,46 +140,62 @@ class FriendListState extends State<FriendList> {
       ),
     );
   }
+
+  String getUserName() {
+    //Firestore.instance.collection('users').document().
+    var ret;
+    Firestore.instance
+        .collection('users')
+        .document(userEmail)
+        .get()
+        .then((value) {
+      print(value.data['name']);
+      ret = value.data['name'];
+    });
+    return ret;
+  }
+
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
-//    if (document['userEmail'] == userEmail) {
-//      return Container();
-//    } else {
-      return Container(
-        child: FlatButton(
-          onPressed: () {
-            Navigator.pop(context, false);
-          },
-          child: Row(
-            children: <Widget>[
-              Material(
-                borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                clipBehavior: Clip.hardEdge,
-              ),
-              Flexible(
-                child: Container(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        child: Text(
-                          'Email: ${document['email']}',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        alignment: Alignment.centerLeft,
-                        margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
-                      ),
-                    ],
-                  ),
-                  margin: EdgeInsets.only(left: 20.0),
-                ),
-              ),
-            ],
-          ),
-          color: Colors.grey,
-          padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        ),
-        margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
-      );
+    if (document['email'] == userEmail) {
+      return Container();
     }
+    return Container(
+      child: FlatButton(
+        onPressed: () {
+          Navigator.pop(context, false);
+        },
+        child: Row(
+          children: <Widget>[
+            Material(
+              borderRadius: BorderRadius.all(Radius.circular(25.0)),
+              clipBehavior: Clip.hardEdge,
+            ),
+            Flexible(
+              child: Container(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      child: Text(
+                        '${document['name']}',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      alignment: Alignment.centerLeft,
+                      margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
+                    ),
+                  ],
+                ),
+                margin: EdgeInsets.only(left: 20.0),
+              ),
+            ),
+          ],
+        ),
+        color: Colors.grey,
+        padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      ),
+      margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
+    );
+  }
 //  }
 }
