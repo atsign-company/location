@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import './home.dart';
 import './login.dart';
+import './events.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -116,6 +117,17 @@ class FriendListState extends State<FriendList> {
               },
             ),
             ListTile(
+              title: Text('Events'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Events(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
               title: Text('Friends'),
               onTap: () {
                 Navigator.pop(context);
@@ -126,7 +138,6 @@ class FriendListState extends State<FriendList> {
               onTap: () async {
                 await _auth.signOut();
                 print('Logout successful');
-
                 Navigator.push(
                   context,
                   MaterialPageRoute(

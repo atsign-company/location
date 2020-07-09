@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import './login.dart';
 import './friendlist.dart';
+import './events.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -116,6 +117,17 @@ class HomeState extends State<Home> {
               },
             ),
             ListTile(
+              title: Text('Events'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Events(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
               title: Text('Friends'),
               onTap: () {
                 Navigator.push(
@@ -131,7 +143,6 @@ class HomeState extends State<Home> {
               onTap: () async {
                 await _auth.signOut();
                 print('Logout successful');
-
                 Navigator.push(
                   context,
                   MaterialPageRoute(
