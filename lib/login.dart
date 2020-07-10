@@ -193,6 +193,7 @@ class LoginState extends State<Login> {
     );
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Form(
         key: _formKey,
         child: Center(

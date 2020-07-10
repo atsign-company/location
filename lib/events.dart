@@ -28,22 +28,22 @@ class Events extends StatefulWidget {
 class EventsState extends State<Events> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: Text('@location'),
+        title: Text('Events'),
       ),
+      backgroundColor: Colors.white,
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
               child: Text('Profile'
-                //getUserName()
+                  //getUserName()
 //                  Firestore.instance.document(userEmail).get().then((value) {
 //                    print(value.data['name']);
 //                  });
-              ),
+                  ),
               decoration: BoxDecoration(
                 color: Colors.blueAccent,
               ),

@@ -147,6 +147,7 @@ class RegisterState extends State<Register> {
       appBar: AppBar(
         title: Text('Register'),
       ),
+      backgroundColor: Colors.white,
       body: Form(
         key: _formKey,
         child: Center(

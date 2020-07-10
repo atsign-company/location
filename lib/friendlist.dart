@@ -76,6 +76,7 @@ class FriendListState extends State<FriendList> {
       appBar: AppBar(
         title: Text('Friends List'),
       ),
+      backgroundColor: Colors.white,
       body: StreamBuilder<QuerySnapshot>(
           stream: repository.getStream(),
           builder: (context, snapshot) {
@@ -84,7 +85,7 @@ class FriendListState extends State<FriendList> {
               return LinearProgressIndicator();
             }
             return ListView.builder(
-              padding: EdgeInsets.all(10.0),
+              padding: EdgeInsets.zero,
               itemBuilder: (context, index) =>
                   buildItem(context, snapshot.data.documents[index]),
               itemCount: snapshot.data.documents.length,
@@ -173,7 +174,7 @@ class FriendListState extends State<FriendList> {
     return Container(
       child: FlatButton(
         onPressed: () {
-          Navigator.pop(context, false);
+          //Navigator.pop(context, false);
         },
         child: Row(
           children: <Widget>[
@@ -188,7 +189,10 @@ class FriendListState extends State<FriendList> {
                     Container(
                       child: Text(
                         '${document['name']}',
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20.0,
+                        ),
                       ),
                       alignment: Alignment.centerLeft,
                       margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
@@ -200,12 +204,15 @@ class FriendListState extends State<FriendList> {
             ),
           ],
         ),
-        color: Colors.grey,
-        padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        color: Colors.white,
+        //color: Theme.of(context).scaffoldBackgroundColor,
+        splashColor: Colors.transparent,
+        highlightColor: Colors.grey[90],
+        padding: EdgeInsets.fromLTRB(25.0, 20.0, 25.0, 20.0),
+//        shape:
+//            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       ),
-      margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
+      //margin: EdgeInsets.only(left: 5.0, right: 5.0),
     );
   }
 //  }

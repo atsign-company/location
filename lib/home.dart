@@ -69,6 +69,7 @@ class HomeState extends State<Home> {
       appBar: AppBar(
         title: Text('@location'),
       ),
+      backgroundColor: Colors.white,
       body: GoogleMap(
         mapType: MapType.normal,
         compassEnabled: true,
