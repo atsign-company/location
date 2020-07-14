@@ -69,9 +69,23 @@ class FriendList extends StatefulWidget {
 class FriendListState extends State<FriendList> {
   final DataRepository repository = DataRepository();
   final String userEmail = LoginState.userEmail;
+  var _userName = '';
+
+  void getName() {
+    Firestore.instance
+        .collection('users')
+        .document(userEmail)
+        .get()
+        .then((value) => setState(() {
+              _userName = value.data['name'];
+            }));
+    //print(_userName);
+  }
 
   @override
   Widget build(BuildContext context) {
+    getName();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Friends List'),
@@ -96,12 +110,7 @@ class FriendListState extends State<FriendList> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              child: Text('Profile'
-                  //getUserName()
-//                  Firestore.instance.document(userEmail).get().then((value) {
-//                    print(value.data['name']);
-//                  });
-                  ),
+              child: Text(_userName),
               decoration: BoxDecoration(
                 color: Colors.blueAccent,
               ),
@@ -153,20 +162,18 @@ class FriendListState extends State<FriendList> {
     );
   }
 
-  String getUserName() {
-    //Firestore.instance.collection('users').document().
-    var ret;
-    Firestore.instance
-        .collection('users')
-        .document(userEmail)
-        .get()
-        .then((value) {
-      print(value.data['name']);
-      ret = value.data['name'];
-    });
-    return ret;
-  }
-
+//  Future idk() async {
+//    String temp;
+//    Future getUserName(String ret) async {
+//      //Firestore.instance.collection('users').document().
+//      ret = await Firestore.instance
+//          .collection('users')
+//          .document(userEmail).get().then((value) => value.data['name']);
+//      print(ret);
+//    }
+//    await getUserName(temp);
+//    return temp;
+//  }
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
     if (document['email'] == userEmail) {
       return Container();

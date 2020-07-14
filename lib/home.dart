@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import './login.dart';
 import './friendlist.dart';
 import './events.dart';
@@ -63,8 +64,22 @@ class HomeState extends State<Home> {
     });
   }
 
+  var userName = '';
+
+  void getName() {
+    Firestore.instance
+        .collection('users')
+        .document(LoginState.userEmail)
+        .get()
+        .then((value) => setState(() {
+              userName = value.data['name'];
+            }));
+  }
+
   @override
   Widget build(BuildContext context) {
+    getName();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('@location'),
@@ -84,19 +99,19 @@ class HomeState extends State<Home> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          FloatingActionButton.extended(
-            heroTag: 'a',
-            onPressed: _goToTheLake,
-            label: Text('Center'),
-            //icon: Icon(Icons.directions_boat),
-          ),
+//          FloatingActionButton.extended(
+//            heroTag: 'a',
+//            onPressed: _goToTheLake,
+//            label: Text('Center'),
+//            //icon: Icon(Icons.directions_boat),
+//          ),
           SizedBox(
             height: 10,
           ),
           FloatingActionButton.extended(
             heroTag: 'b',
             onPressed: _getLocation,
-            label: Text('testing'),
+            label: Text('Pin'),
           ),
         ],
       ),
@@ -106,7 +121,7 @@ class HomeState extends State<Home> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              child: Text('Profile'),
+              child: Text(userName),
               decoration: BoxDecoration(
                 color: Colors.blueAccent,
               ),
