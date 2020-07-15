@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+
+//import 'package:firebase_storage/firebase_storage.dart';
 import './home.dart';
 import './login.dart';
 import './events.dart';
@@ -25,12 +26,12 @@ class User {
   String toString() => "User<$userEmail>";
 }
 
-User _userFromJson(Map<dynamic, dynamic> json) {
-  return User(
-    json['userEmail'] as String,
-    json['pid'] as String,
-  );
-}
+//User _userFromJson(Map<dynamic, dynamic> json) {
+//  return User(
+//    json['userEmail'] as String,
+//    json['pid'] as String,
+//  );
+//}
 
 Map<String, dynamic> _userToJson(User user) => <String, dynamic>{
       'userEmail': user.userEmail,
@@ -79,7 +80,6 @@ class FriendListState extends State<FriendList> {
         .then((value) => setState(() {
               _userName = value.data['name'];
             }));
-    //print(_userName);
   }
 
   @override
@@ -89,6 +89,7 @@ class FriendListState extends State<FriendList> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Friends List'),
+        backgroundColor: Colors.orange,
       ),
       backgroundColor: Colors.white,
       body: StreamBuilder<QuerySnapshot>(
@@ -112,7 +113,7 @@ class FriendListState extends State<FriendList> {
             DrawerHeader(
               child: Text(_userName),
               decoration: BoxDecoration(
-                color: Colors.blueAccent,
+                color: Colors.orange,
               ),
             ),
             ListTile(
@@ -162,18 +163,6 @@ class FriendListState extends State<FriendList> {
     );
   }
 
-//  Future idk() async {
-//    String temp;
-//    Future getUserName(String ret) async {
-//      //Firestore.instance.collection('users').document().
-//      ret = await Firestore.instance
-//          .collection('users')
-//          .document(userEmail).get().then((value) => value.data['name']);
-//      print(ret);
-//    }
-//    await getUserName(temp);
-//    return temp;
-//  }
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
     if (document['email'] == userEmail) {
       return Container();

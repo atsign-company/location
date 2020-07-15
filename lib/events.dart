@@ -3,7 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import './home.dart';
 import './login.dart';
-import 'friendlist.dart';
+import './friendlist.dart';
+import './eventpage.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -45,6 +46,7 @@ class EventsState extends State<Events> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Events'),
+        backgroundColor: Colors.orange,
       ),
       backgroundColor: Colors.white,
       body: ListView(
@@ -52,7 +54,12 @@ class EventsState extends State<Events> {
           Container(
             child: FlatButton(
               onPressed: () {
-                //Navigator.pop(context, false);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EventPage(),
+                  ),
+                );
               },
               child: Row(
                 children: <Widget>[
@@ -244,7 +251,7 @@ class EventsState extends State<Events> {
 //                  });
                   ),
               decoration: BoxDecoration(
-                color: Colors.blueAccent,
+                color: Colors.orange,
               ),
             ),
             ListTile(

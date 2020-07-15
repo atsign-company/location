@@ -83,6 +83,7 @@ class HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: Text('@location'),
+        backgroundColor: Colors.orange,
       ),
       backgroundColor: Colors.white,
       body: GoogleMap(
@@ -99,12 +100,12 @@ class HomeState extends State<Home> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-//          FloatingActionButton.extended(
-//            heroTag: 'a',
-//            onPressed: _goToTheLake,
-//            label: Text('Center'),
-//            //icon: Icon(Icons.directions_boat),
-//          ),
+          FloatingActionButton.extended(
+            heroTag: 'a',
+            onPressed: _goToTheLake,
+            label: Text('Center'),
+            //icon: Icon(Icons.directions_boat),
+          ),
           SizedBox(
             height: 10,
           ),
@@ -123,7 +124,7 @@ class HomeState extends State<Home> {
             DrawerHeader(
               child: Text(userName),
               decoration: BoxDecoration(
-                color: Colors.blueAccent,
+                color: Colors.orange,
               ),
             ),
             ListTile(
