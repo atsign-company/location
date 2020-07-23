@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import './home.dart';
 import './login.dart';
 import './events.dart';
+import './styles.dart' as styles;
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -89,7 +90,7 @@ class FriendListState extends State<FriendList> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Friends List'),
-        backgroundColor: Colors.orange,
+        backgroundColor: styles.atOrange,
       ),
       backgroundColor: Colors.white,
       body: StreamBuilder<QuerySnapshot>(
@@ -113,7 +114,7 @@ class FriendListState extends State<FriendList> {
             DrawerHeader(
               child: Text(_userName),
               decoration: BoxDecoration(
-                color: Colors.orange,
+                color: styles.atOrange,
               ),
             ),
             ListTile(

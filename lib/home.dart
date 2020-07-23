@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import './login.dart';
 import './friendlist.dart';
 import './events.dart';
+import './styles.dart' as styles;
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -83,7 +84,7 @@ class HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: Text('@location'),
-        backgroundColor: Colors.orange,
+        backgroundColor: styles.atOrange,
       ),
       backgroundColor: Colors.white,
       body: GoogleMap(
@@ -124,7 +125,7 @@ class HomeState extends State<Home> {
             DrawerHeader(
               child: Text(userName),
               decoration: BoxDecoration(
-                color: Colors.orange,
+                color: styles.atOrange,
               ),
             ),
             ListTile(

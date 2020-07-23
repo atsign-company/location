@@ -5,6 +5,7 @@ import './home.dart';
 import './login.dart';
 import './friendlist.dart';
 import './eventpage.dart';
+import './styles.dart' as styles;
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -46,7 +47,7 @@ class EventsState extends State<Events> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Events'),
-        backgroundColor: Colors.orange,
+        backgroundColor: styles.atOrange,
       ),
       backgroundColor: Colors.white,
       body: ListView(
@@ -251,7 +252,7 @@ class EventsState extends State<Events> {
 //                  });
                   ),
               decoration: BoxDecoration(
-                color: Colors.orange,
+                color: styles.atOrange,
               ),
             ),
             ListTile(

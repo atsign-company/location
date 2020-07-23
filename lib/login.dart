@@ -3,6 +3,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import './register.dart';
 import './home.dart';
+import './styles.dart' as styles;
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -150,7 +151,7 @@ class LoginState extends State<Login> {
     final loginButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.orange,
+      color: styles.atOrange,
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -171,7 +172,7 @@ class LoginState extends State<Login> {
     final registerButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.orange,
+      color: styles.atOrange,
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20, 15, 20, 15),

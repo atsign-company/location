@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import './events.dart';
+import './styles.dart' as styles;
 
 //final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -30,7 +31,7 @@ class EventPageState extends State<EventPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Event Details'),
-        backgroundColor: Colors.orange,
+        backgroundColor: styles.atOrange,
       ),
       backgroundColor: Colors.white,
       body: ListView(
@@ -44,17 +45,17 @@ class EventPageState extends State<EventPage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+            margin: EdgeInsets.fromLTRB(15.0, 10.0, 10.0, 0.0),
           ),
           Container(
             child: Text(
               'Friday Zoom Movie Night!',
               style: TextStyle(
-                fontSize: 20.0,
+                fontSize: 25.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            margin: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0.0),
+            margin: EdgeInsets.fromLTRB(15.0, 5.0, 10.0, 0.0),
           ),
           Container(
             child: Text(
@@ -64,7 +65,51 @@ class EventPageState extends State<EventPage> {
                 color: Colors.grey,
               ),
             ),
-            margin: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+            margin: EdgeInsets.fromLTRB(15.0, 5.0, 10.0, 5.0),
+          ),
+          Container(
+            child: Row(
+              children: <Widget>[
+                Container(
+                  child: Column(
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(
+                          Icons.check_circle_outline,
+                          color: styles.atOrange,
+                        ),
+                        iconSize: 30.0,
+                      ),
+                      Text('Going'),
+                    ],
+                  ),
+                ),
+                Container(
+                  child: Column(
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(Icons.block),
+                        iconSize: 30.0,
+                      ),
+                      Text('Not going'),
+                    ],
+                  ),
+                ),
+                Container(
+                  child: Column(
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(Icons.help_outline),
+                        iconSize: 30.0,
+                      ),
+                      Text('Maybe'),
+                    ],
+                  ),
+                ),
+              ],
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            ),
+            padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
           ),
           Divider(
             color: Colors.black,
@@ -80,7 +125,7 @@ class EventPageState extends State<EventPage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            margin: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0.0),
+            margin: EdgeInsets.fromLTRB(15.0, 5.0, 10.0, 0.0),
           ),
           Container(
             child: Text(
@@ -89,7 +134,7 @@ class EventPageState extends State<EventPage> {
                 fontSize: 17.0,
               ),
             ),
-            margin: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0.0),
+            margin: EdgeInsets.fromLTRB(15.0, 5.0, 10.0, 0.0),
           ),
           Container(
             child: Text(
@@ -98,7 +143,7 @@ class EventPageState extends State<EventPage> {
                 color: Colors.grey,
               ),
             ),
-            margin: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+            margin: EdgeInsets.fromLTRB(15.0, 5.0, 10.0, 5.0),
           ),
           Divider(
             color: Colors.black,
@@ -108,13 +153,37 @@ class EventPageState extends State<EventPage> {
           ),
           Container(
             child: Text(
-              'Map or Posts?',
+              'Hosted By',
               style: TextStyle(
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            margin: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+            margin: EdgeInsets.fromLTRB(15.0, 5.0, 10.0, 5.0),
+          ),
+          Container(
+            child: Row(
+              children: <Widget>[
+                Icon(
+                  Icons.help_outline,
+                  size: 40.0,
+                ),
+                SizedBox(
+                  width: 10.0,
+                ),
+                Text(
+                  '@sean',
+                  style: TextStyle(fontSize: 17.0),
+                ),
+              ],
+            ),
+            padding: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 5.0),
+          ),
+          Divider(
+            color: Colors.black,
+            indent: 10.0,
+            endIndent: 10.0,
+            thickness: 0.3,
           ),
         ],
       ),

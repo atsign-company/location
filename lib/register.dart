@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import './styles.dart' as styles;
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -125,7 +126,7 @@ class RegisterState extends State<Register> {
     final registerButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.orange,
+      color: styles.atOrange,
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -146,7 +147,7 @@ class RegisterState extends State<Register> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Register'),
-        backgroundColor: Colors.orange,
+        backgroundColor: styles.atOrange,
       ),
       backgroundColor: Colors.white,
       body: Form(
