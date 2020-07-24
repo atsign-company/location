@@ -162,11 +162,7 @@ class RegisterState extends State<Register> {
                 children: <Widget>[
                   SizedBox(
                     height: 155,
-                    child: Text(
-                      '@location',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 30),
-                    ),
+                    child: Image.asset('assets/images/location-logo.png'),
                   ),
                   SizedBox(height: 35),
                   _failRegister,

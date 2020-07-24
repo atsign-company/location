@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import './events.dart';
+import './eventPosts.dart';
 import './styles.dart' as styles;
 
 //final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -32,6 +33,22 @@ class EventPageState extends State<EventPage> {
       appBar: AppBar(
         title: Text('Event Details'),
         backgroundColor: styles.atOrange,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.chat_bubble_outline,
+              color: styles.atWhite,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EventPosts(),
+                ),
+              );
+            },
+          )
+        ],
       ),
       backgroundColor: Colors.white,
       body: ListView(
@@ -165,7 +182,7 @@ class EventPageState extends State<EventPage> {
             child: Row(
               children: <Widget>[
                 Icon(
-                  Icons.help_outline,
+                  Icons.account_box,
                   size: 40.0,
                 ),
                 SizedBox(

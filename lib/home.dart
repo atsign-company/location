@@ -83,7 +83,10 @@ class HomeState extends State<Home> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('@location'),
+        title: Text(
+          '@location',
+          style: TextStyle(fontFamily: 'Comfortaa'),
+        ),
         backgroundColor: styles.atOrange,
       ),
       backgroundColor: Colors.white,
@@ -122,10 +125,18 @@ class HomeState extends State<Home> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
-              child: Text(userName),
-              decoration: BoxDecoration(
-                color: styles.atOrange,
+            Container(
+              height: 90,
+              child: DrawerHeader(
+                child: Text(
+                  userName,
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                decoration: BoxDecoration(
+                  color: styles.atOrange,
+                ),
               ),
             ),
             ListTile(

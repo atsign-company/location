@@ -53,6 +53,14 @@ class EventsState extends State<Events> {
       body: ListView(
         children: <Widget>[
           Container(
+            child: Text(
+              'Going',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            color: styles.atDGrey,
+            padding: EdgeInsets.only(left: 10.0),
+          ),
+          Container(
             child: FlatButton(
               onPressed: () {
                 Navigator.push(
@@ -64,44 +72,53 @@ class EventsState extends State<Events> {
               },
               child: Row(
                 children: <Widget>[
-                  Flexible(
-                    child: Container(
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            child: Text(
-                              'FRI, JUL 10 @ 9 PM',
-                              style:
-                                  TextStyle(color: Colors.red, fontSize: 15.0),
-                            ),
-                            alignment: Alignment.centerLeft,
-                            margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
-                          ),
-                          Container(
-                            child: Text(
-                              'Friday Zoom Movie Night!',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20.0,
+                  IconButton(
+                    icon: Icon(
+                      Icons.check_circle_outline,
+                      color: styles.atOrange,
+                    ),
+                    iconSize: 25.0,
+                  ),
+                  Container(
+                    child: Flexible(
+                      child: Container(
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              child: Text(
+                                'FRI, JUL 10 @ 9 PM',
+                                style: TextStyle(
+                                    color: Colors.red, fontSize: 15.0),
                               ),
+                              alignment: Alignment.centerLeft,
+                              margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
                             ),
-                            alignment: Alignment.centerLeft,
-                            margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
-                          ),
-                          Container(
-                            child: Text(
-                              'Online Event · 12 people',
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 15.0,
+                            Container(
+                              child: Text(
+                                'Friday Zoom Movie Night!',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20.0,
+                                ),
                               ),
+                              alignment: Alignment.centerLeft,
+                              margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
                             ),
-                            alignment: Alignment.centerLeft,
-                            margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
-                          ),
-                        ],
+                            Container(
+                              child: Text(
+                                'Online Event · 12 people',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 15.0,
+                                ),
+                              ),
+                              alignment: Alignment.centerLeft,
+                              margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
+                            ),
+                          ],
+                        ),
+                        //margin: EdgeInsets.only(left: 20.0),
                       ),
-                      margin: EdgeInsets.only(left: 20.0),
                     ),
                   ),
                 ],
@@ -110,11 +127,19 @@ class EventsState extends State<Events> {
               //color: Theme.of(context).scaffoldBackgroundColor,
               splashColor: Colors.transparent,
               highlightColor: Colors.grey[90],
-              padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
+              padding: EdgeInsets.fromLTRB(5.0, 5.0, 25.0, 0.0),
 //        shape:
 //            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
             ),
             //margin: EdgeInsets.only(left: 5.0, right: 5.0),
+          ),
+          Container(
+            child: Text(
+              'Maybe',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            color: styles.atDGrey,
+            padding: EdgeInsets.only(left: 10.0),
           ),
           Container(
             child: FlatButton(
@@ -123,6 +148,13 @@ class EventsState extends State<Events> {
               },
               child: Row(
                 children: <Widget>[
+                  IconButton(
+                    icon: Icon(
+                      Icons.help_outline,
+                      color: styles.atOrange,
+                    ),
+                    iconSize: 25.0,
+                  ),
 //                  Material(
 //                    borderRadius: BorderRadius.all(Radius.circular(25.0)),
 //                    clipBehavior: Clip.hardEdge,
@@ -164,7 +196,7 @@ class EventsState extends State<Events> {
                           ),
                         ],
                       ),
-                      margin: EdgeInsets.only(left: 20.0),
+                      //margin: EdgeInsets.only(left: 20.0),
                     ),
                   ),
                 ],
@@ -173,11 +205,19 @@ class EventsState extends State<Events> {
               //color: Theme.of(context).scaffoldBackgroundColor,
               splashColor: Colors.transparent,
               highlightColor: Colors.grey[90],
-              padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
+              padding: EdgeInsets.fromLTRB(5.0, 5.0, 25.0, 0.0),
 //        shape:
 //            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
             ),
             //margin: EdgeInsets.only(left: 5.0, right: 5.0),
+          ),
+          Container(
+            child: Text(
+              'Not Going',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            color: styles.atDGrey,
+            padding: EdgeInsets.only(left: 10.0),
           ),
           Container(
             child: FlatButton(
@@ -186,6 +226,13 @@ class EventsState extends State<Events> {
               },
               child: Row(
                 children: <Widget>[
+                  IconButton(
+                    icon: Icon(
+                      Icons.block,
+                      color: styles.atOrange,
+                    ),
+                    iconSize: 25.0,
+                  ),
                   Flexible(
                     child: Container(
                       child: Column(
@@ -223,7 +270,7 @@ class EventsState extends State<Events> {
                           ),
                         ],
                       ),
-                      margin: EdgeInsets.only(left: 20.0),
+                      // margin: EdgeInsets.only(left: 20.0),
                     ),
                   ),
                 ],
@@ -232,7 +279,7 @@ class EventsState extends State<Events> {
               //color: Theme.of(context).scaffoldBackgroundColor,
               splashColor: Colors.transparent,
               highlightColor: Colors.grey[90],
-              padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
+              padding: EdgeInsets.fromLTRB(5.0, 5.0, 25.0, 0.0),
 //        shape:
 //            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
             ),
