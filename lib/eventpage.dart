@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import './events.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import './eventPosts.dart';
 import './styles.dart' as styles;
 
@@ -27,6 +29,16 @@ class EventPage extends StatefulWidget {
 }
 
 class EventPageState extends State<EventPage> {
+
+  static final CameraPosition _kGooglePlex = CameraPosition(
+    target: LatLng(37.42796133580664, -122.085749655962),
+    zoom: 14.4746,
+  );
+
+  final Map<String, Marker> _markers = {};
+
+  Completer<GoogleMapController> _controller = Completer();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -201,6 +213,20 @@ class EventPageState extends State<EventPage> {
             indent: 10.0,
             endIndent: 10.0,
             thickness: 0.3,
+          ),
+          Container(
+            child: GoogleMap(
+              mapType: MapType.normal,
+//              compassEnabled: true,
+//              myLocationButtonEnabled: true,
+              myLocationEnabled: false,
+              initialCameraPosition: _kGooglePlex,
+              markers: _markers.values.toSet(),
+//              onMapCreated: (GoogleMapController controller) {
+//                _controller.complete(controller);
+//              },
+            ),
+            height: 500.0,
           ),
         ],
       ),

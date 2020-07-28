@@ -291,15 +291,21 @@ class EventsState extends State<Events> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
-              child: Text(userName
-                  //getUserName()
+            Container(
+              height: 90,
+              child: DrawerHeader(
+                child: Text(userName,
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                    //getUserName()
 //                  Firestore.instance.document(userEmail).get().then((value) {
 //                    print(value.data['name']);
 //                  });
-                  ),
-              decoration: BoxDecoration(
-                color: styles.atOrange,
+                    ),
+                decoration: BoxDecoration(
+                  color: styles.atOrange,
+                ),
               ),
             ),
             ListTile(

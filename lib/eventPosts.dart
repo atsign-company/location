@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import './styles.dart' as styles;
@@ -21,6 +22,7 @@ class EventPosts extends StatefulWidget {
 }
 
 class EventPostsState extends State<EventPosts> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

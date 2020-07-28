@@ -101,25 +101,25 @@ class HomeState extends State<Home> {
           _controller.complete(controller);
         },
       ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          FloatingActionButton.extended(
-            heroTag: 'a',
-            onPressed: _goToTheLake,
-            label: Text('Center'),
-            //icon: Icon(Icons.directions_boat),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          FloatingActionButton.extended(
-            heroTag: 'b',
-            onPressed: _getLocation,
-            label: Text('Pin'),
-          ),
-        ],
-      ),
+//      floatingActionButton: Column(
+//        mainAxisAlignment: MainAxisAlignment.end,
+//        children: <Widget>[
+//          FloatingActionButton.extended(
+//            heroTag: 'a',
+//            onPressed: _goToTheLake,
+//            label: Text('Center'),
+//            //icon: Icon(Icons.directions_boat),
+//          ),
+//          SizedBox(
+//            height: 10,
+//          ),
+//          FloatingActionButton.extended(
+//            heroTag: 'b',
+//            onPressed: _getLocation,
+//            label: Text('Pin'),
+//          ),
+//        ],
+//      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       drawer: Drawer(
         child: ListView(
