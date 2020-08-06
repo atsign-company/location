@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import './events.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import './eventPosts.dart';
 import './styles.dart' as styles;
 
@@ -29,18 +30,48 @@ class EventPage extends StatefulWidget {
 }
 
 class EventPageState extends State<EventPage> {
-
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
   );
+  CameraPosition _myPosition;
 
   final Map<String, Marker> _markers = {};
 
   Completer<GoogleMapController> _controller = Completer();
 
+  Future<CameraPosition> _testing() async {
+    var theLocation = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    return CameraPosition(
+      target: LatLng(theLocation.latitude, theLocation.longitude),
+      zoom: 14.4746,
+    );
+  }
+  void _getLocation() async {
+    var currentLocation = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
+    setState(() {
+      _markers.clear();
+      final marker = Marker(
+        markerId: MarkerId("curr_loc"),
+        position: LatLng(currentLocation.latitude, currentLocation.longitude),
+        infoWindow: InfoWindow(title: 'Your Location'),
+      );
+      _markers["Current Location"] = marker;
+    });
+  }
+
+  EventPageState() {
+    _testing().then((value) => setState(() {
+      _myPosition = value;
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
+    //_getLocation();
     return Scaffold(
       appBar: AppBar(
         title: Text('Event Details'),
@@ -215,18 +246,35 @@ class EventPageState extends State<EventPage> {
             thickness: 0.3,
           ),
           Container(
+            child: Text(
+              'Map',
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            padding: EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 5.0),
+          ),
+          Container(
             child: GoogleMap(
               mapType: MapType.normal,
-//              compassEnabled: true,
-//              myLocationButtonEnabled: true,
-              myLocationEnabled: false,
-              initialCameraPosition: _kGooglePlex,
+              compassEnabled: true,
+              myLocationButtonEnabled: true,
+              myLocationEnabled: true,
+              initialCameraPosition: _myPosition,
               markers: _markers.values.toSet(),
-//              onMapCreated: (GoogleMapController controller) {
-//                _controller.complete(controller);
-//              },
+              onMapCreated: (GoogleMapController controller) {
+                _controller.complete(controller);
+              },
             ),
-            height: 500.0,
+            height: 250.0,
+            padding: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 5.0),
+          ),
+          Divider(
+            color: Colors.black,
+            indent: 10.0,
+            endIndent: 10.0,
+            thickness: 0.3,
           ),
         ],
       ),
