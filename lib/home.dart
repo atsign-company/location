@@ -9,7 +9,7 @@ import './friendlist.dart';
 import './events.dart';
 import './styles.dart' as styles;
 import './test.dart';
-import './models/locationService.dart';
+import 'services/location_service.dart';
 import './models/location.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -86,7 +86,7 @@ class HomeState extends State<Home> {
             }));
   }
 
-  var locationService = LocationService();
+  var locationService = LocationService.getInstance();
 
   @override
   Widget build(BuildContext context) {

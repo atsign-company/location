@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 //import 'package:newserverdemo/screens/home_screen.dart';
-import './services/atclient_services.dart';
+import './services/location_service.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import './utils/at_conf.dart' as at_conf;
 import './home.dart';
@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   // TODO: Instantiate variables
   bool showSpinner = false;
   TextEditingController _loginTextFieldController = TextEditingController();
-  AtClientService _atClientService = AtClientService.getInstance();
+  LocationService _atClientService = LocationService.getInstance();
 
   @override
   Widget build(BuildContext context) {
@@ -100,16 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
     bool status = false;
     if (atSign != null) {
-      String secretKey = at_conf.secretMap[atSign];
-      await _atClientService.initClient(atSign, secret: secretKey);
-      print(secretKey);
-      await _atClientService.initAtClientAuth(atsign: atSign);
-      String privateKey = await _atClientService.getPrivateKey(atSign);
-      await _atClientService.initClient(atSign, privateKey: privateKey);
-      if (privateKey == null) {
-        status = await _atClientService.performAuth(atSign, secret: secretKey);
-      }
-
+      _atClientService.onboard(atsign: atSign);
       // if (status) {
       //   setState(() {
       //     showSpinner = false;
