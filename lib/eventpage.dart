@@ -48,6 +48,7 @@ class EventPageState extends State<EventPage> {
       zoom: 14.4746,
     );
   }
+
   void _getLocation() async {
     var currentLocation = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
@@ -63,15 +64,24 @@ class EventPageState extends State<EventPage> {
     });
   }
 
-  EventPageState() {
+  bool _loading = true;
+
+  void _getMapLoc() {
     _testing().then((value) => setState(() {
       _myPosition = value;
+      _loading = false;
     }));
+
+  }
+
+  @override
+  void initState() {
+    _getMapLoc();
   }
 
   @override
   Widget build(BuildContext context) {
-    //_getLocation();
+    if (_loading) return CircularProgressIndicator();
     return Scaffold(
       appBar: AppBar(
         title: Text('Event Details'),

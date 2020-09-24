@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:location/testlogin.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import './register.dart';
 import './home.dart';
 import './styles.dart' as styles;
+import './testlogin.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -193,6 +195,36 @@ class LoginState extends State<Login> {
       ),
     );
 
+
+    final testButton = Material(
+      elevation: 5,
+      borderRadius: BorderRadius.circular(30),
+      color: styles.atOrange,
+      child: MaterialButton(
+        minWidth: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LoginScreen(),
+            ),
+          );
+        },
+        child: Text(
+          "logintest",
+          textAlign: TextAlign.center,
+          style:
+          style.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+
+
+
+
+
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Form(
@@ -224,6 +256,8 @@ class LoginState extends State<Login> {
                   loginButton,
                   SizedBox(height: 15),
                   registerButton,
+                  SizedBox(height: 15),
+                  testButton,
                 ],
               ),
             ),

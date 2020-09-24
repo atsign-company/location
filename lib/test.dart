@@ -1,21 +1,21 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geolocator/geolocator.dart';
+
+import './home.dart';
 import './login.dart';
-import './friendlist.dart';
 import './events.dart';
+import './friendlist.dart';
 import './styles.dart' as styles;
-import './test.dart';
-import './models/locationService.dart';
-import './models/location.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
-class Home extends StatefulWidget {
-  Home({Key key, this.title}) : super(key: key);
+class Test extends StatefulWidget {
+  Test({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -29,30 +29,22 @@ class Home extends StatefulWidget {
   final String title;
 
   @override
-  HomeState createState() => HomeState();
+  TestState createState() => TestState();
 }
 
-class HomeState extends State<Home> {
-  Completer<GoogleMapController> _controller = Completer();
+class TestState extends State<Test> {
+  final String userEmail = LoginState.userEmail;
+  var _userName = '';
 
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
-
-  static final CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
-
-  final Set<Marker> _markers = {};
-
-  Future<void> _goToTheLake() async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
+  void getName() {
+    Firestore.instance
+        .collection('users')
+        .document(userEmail)
+        .get()
+        .then((value) => setState(() {
+              _userName = value.data['name'];
+            }));
   }
-
   void _getLocation() async {
     var currentLocation = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
@@ -61,12 +53,12 @@ class HomeState extends State<Home> {
       _markers.clear();
       final marker = Marker(
         markerId: MarkerId("start"),
-        position: LatLng(currentLocation.latitude, currentLocation.longitude),
+        position: LatLng(27.42796133580664, -102.085749655962),
         infoWindow: InfoWindow(title: 'Your Location'),
       );
       final destMarker = Marker(
         markerId: MarkerId('dest'),
-        position: LatLng(35, -120),
+        position: LatLng(37, -122),
         infoWindow: InfoWindow(title: 'Destination'),
       );
       _markers.add(marker);
@@ -74,45 +66,22 @@ class HomeState extends State<Home> {
     });
   }
 
-  var userName = '';
-
-  void getName() {
-    Firestore.instance
-        .collection('users')
-        .document(LoginState.userEmail)
-        .get()
-        .then((value) => setState(() {
-              userName = value.data['name'];
-            }));
-  }
-
-  var locationService = LocationService();
+  final Set<Marker> _markers = {};
+  Completer<GoogleMapController> _controller = Completer();
+  static final CameraPosition _kGooglePlex = CameraPosition(
+    target: LatLng(37.42796133580664, -122.085749655962),
+    zoom: 14.4746,
+  );
 
   @override
   Widget build(BuildContext context) {
     getName();
+    _getLocation();
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          '@location',
-          style: TextStyle(fontFamily: 'Comfortaa'),
-        ),
+        title: Text('Testing'),
         backgroundColor: styles.atOrange,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.update),
-            onPressed: () {
-              locationService.updateLocation(Location(100, 100));
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.access_alarm),
-            onPressed: () {
-              locationService.getCurrentLocation();
-            },
-          ),
-        ],
       ),
       backgroundColor: Colors.white,
       body: GoogleMap(
@@ -126,26 +95,6 @@ class HomeState extends State<Home> {
           _controller.complete(controller);
         },
       ),
-//      floatingActionButton: Column(
-//        mainAxisAlignment: MainAxisAlignment.end,
-//        children: <Widget>[
-//          FloatingActionButton.extended(
-//            heroTag: 'a',
-//            onPressed: _goToTheLake,
-//            label: Text('Center'),
-//            //icon: Icon(Icons.directions_boat),
-//          ),
-//          SizedBox(
-//            height: 10,
-//          ),
-//          FloatingActionButton.extended(
-//            heroTag: 'b',
-//            onPressed: _getLocation,
-//            label: Text('Pin'),
-//          ),
-//        ],
-//      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -154,7 +103,7 @@ class HomeState extends State<Home> {
               height: 90,
               child: DrawerHeader(
                 child: Text(
-                  userName,
+                  _userName,
                   style: TextStyle(
                     fontSize: 20,
                   ),
