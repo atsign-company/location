@@ -49,6 +49,15 @@ packages:
       url: "git@github.com:atsign-company/atsign_foundation.git"
     source: git
     version: "0.1.0"
+  at_demo_data:
+    dependency: "direct main"
+    description:
+      path: at_demo_data
+      ref: master
+      resolved-ref: "6496d25f41fe6d44a8be17cc8e5c4ff049a80706"
+      url: "git@github.com:atsign-company/at_demos.git"
+    source: git
+    version: "0.1.0"
   at_lookup:
     dependency: transitive
     description:

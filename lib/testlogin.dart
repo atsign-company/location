@@ -1,4 +1,4 @@
-import 'dart:ui';
+//import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -7,6 +7,7 @@ import './services/location_service.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import './utils/at_conf.dart' as at_conf;
 import './home.dart';
+import 'package:at_demo_data/at_demo_data.dart' as at_demo_data;
 
 String atSign;
 
@@ -99,18 +100,27 @@ class _LoginScreenState extends State<LoginScreen> {
       showSpinner = true;
     });
     bool status = false;
-    if (atSign != null) {
-      _atClientService.onboard(atsign: atSign);
-      // if (status) {
-      //   setState(() {
-      //     showSpinner = false;
-      //   });
+
+    _atClientService.onboard().then((value) {
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => Home(),
         ),
       );
-    }
+    }).catchError((error) async {
+      await _atClientService.authenticate('@colin🛠',
+          cramSecret: at_demo_data.cramKeyMap['@colin🛠']);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Home(),
+        ),
+      );
+    });
+    // if (status) {
+    //   setState(() {
+    //     showSpinner = false;
+    //   });
   }
 }
